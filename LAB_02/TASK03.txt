@@ -1,0 +1,123 @@
+.MODEL SMALL
+
+.STACK 100h
+     
+.DATA
+
+STR DB "Enter First Initial: $"   
+STR2 DB "Enter Second Initial: $"
+STR3 DB "Enter third Initial: $"
+
+
+.CODE
+MAIN PROC
+        
+MOV AX, @DATA
+MOV DS, AX
+ 
+ 
+;START CODE HERE
+
+MOV AX, DATA
+MOV DS, AX
+MOV ES, AX 
+
+
+LEA DX, STR
+MOV AH, 9
+INT 21h
+    
+MOV AH, 1 
+INT 21h
+MOV BH, AL  
+
+
+;carriage return
+MOV AH, 2
+MOV DL, 0DH
+INT 21h
+;line feed
+MOV DL, 0AH
+INT 21h
+
+    
+LEA DX, STR2
+MOV AH, 9
+INT 21H 
+    
+MOV AH,1 
+INT 21h
+MOV BL, AL  
+
+;carriage return
+MOV AH, 2
+MOV DL, 0DH
+INT 21h
+;line feed
+MOV DL, 0AH
+INT 21h
+    
+LEA DX, STR3
+MOV AH, 9
+INT 21h
+
+MOV AH, 1 
+INT 21h
+MOV CL, AL  
+
+;carriage return
+MOV AH, 2
+MOV DL, 0DH
+INT 21h
+;line feed
+MOV DL, 0AH
+INT 21h
+           
+;Printing
+
+;carriage return
+MOV AH, 2
+MOV DL, 0DH
+INT 21h
+;line feed
+MOV DL, 0AH
+INT 21h
+
+MOV DL, CL
+MOV AH, 2
+INT 21h 
+    
+    
+;carriage return
+MOV AH, 2
+MOV DL, 0DH
+INT 21h
+;line feed
+MOV DL, 0AH
+INT 21h
+
+    
+MOV DL, BL
+MOV AH, 2
+INT 21h 
+    
+;carriage return
+MOV AH, 2
+MOV DL, 0DH
+INT 21h
+;line feed
+MOV DL, 0AH
+INT 21h
+
+
+MOV DL, BH
+MOV AH, 2
+INT 21h
+
+;END CODE HERE
+
+MOV AX, 4C00H
+INT 21h
+
+MAIN ENDP
+END MAIN

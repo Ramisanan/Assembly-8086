@@ -1,0 +1,6 @@
+MOV AL, 9
+MOV BL, 3
+div BL
+MOV AX, AX
+MOV BL, 2
+MUL BL 

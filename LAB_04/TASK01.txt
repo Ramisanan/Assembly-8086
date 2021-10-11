@@ -1,0 +1,86 @@
+.model small 
+
+.stack 100h
+
+.data 
+
+num db ?
+num2 db ?
+
+msg db 'Enter a digit:$' 
+msg2 db 'Enter another digit:$'
+
+.code
+
+main proc 
+    
+mov ax, @data
+mov ds, ax
+
+lea dx, msg    ;display enter a digit
+mov ah, 9
+int 21h
+mov ah, 1      ;gets a digit as character
+int 21h
+sub al, 48     ;convert character into number
+mov num, al 
+
+mov ah, 2
+mov dl, 0dh
+int 21h
+mov dl,0ah
+int 21h
+
+lea dx, msg2   ;display enter a digit:
+mov ah, 9
+int 21h
+mov ah, 1      ;gets a digit as character
+int 21h
+sub al, 48     ;convert character into number
+mov num2, al 
+
+mov ah, 2
+mov dl, 0dh
+int 21h
+mov dl, 0ah
+int 21h
+
+mov ah, 2 
+
+mov dl, num
+mov bl, num
+mov cl, 3
+
+start: 
+cmp bl, num2
+jg exit
+   
+mov al, bl
+mov ah, 0
+div cl         ; divide by 3  
+
+cmp ah, 0
+je print
+inc bl
+jmp start
+ 
+print:
+mov ah, 2
+mov dl, 0dh
+int 21h
+mov dl, 0ah
+int 21h
+
+mov dl, bl
+add dl, 48
+mov ah, 2
+int 21h
+inc bl
+jmp start
+
+exit:
+
+mov ah, 4ch      ;end of program
+int 21h
+main endp
+end

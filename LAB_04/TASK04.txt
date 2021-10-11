@@ -1,0 +1,132 @@
+.MODEL SMALL
+
+.STACK 100h
+     
+.DATA
+A DB "ENTER A HEX DIGIT: $"
+B DB "IN DECIMAL IT IS $"
+C DB "DO YOU WANT TO DO IT AGAIN?: $"
+D DB "ILLEGAL CHARACTER, INSERT AGAIN: $"
+E DB  0DH,0AH,"$"
+ 
+.CODE
+MAIN PROC
+        
+MOV AX, @DATA
+MOV DS, AX 
+
+;START CODE HERE
+
+L1:                   
+MOV AH, 9                  
+LEA DX, A            
+INT 21H
+
+L2:                    
+MOV AH, 1                 
+INT 21H
+MOV BL, AL                
+CMP BL, "A"                
+JB X           
+CMP BL, "F"                
+JA COMPARE     
+JMP Z     
+
+X:               
+CMP BL, "0"              
+JB COMPARE      
+CMP BL, "9"                
+JA COMPARE      
+JMP Y        
+
+COMPARE:
+MOV AH, 2
+MOV DL, 0DH
+INT 21h
+MOV DL, 0AH
+INT 21h          
+INC CL                     
+CMP CL, 3                  
+JE DISPLAY               
+MOV AH, 9                  
+LEA DX, E          
+INT 21H
+LEA DX, D            
+INT 21H
+JMP L2              
+
+Y:
+MOV AH, 2
+MOV DL, 0DH
+INT 21h
+MOV DL, 0AH
+INT 21h
+              
+MOV CL, 0                  
+MOV AH, 9                  
+LEA DX, E          
+INT 21H
+LEA DX, B           
+INT 21H
+MOV AH, 2                
+MOV DL, BL
+INT 21H
+JMP CONTINUE             
+
+Z:
+MOV AH, 2
+MOV DL, 0DH
+INT 21h
+MOV DL, 0AH
+INT 21h
+        
+MOV CL, 0                  
+MOV AH, 9             
+LEA DX, E         
+INT 21H
+LEA DX, B          
+INT 21H
+MOV AH, 2              
+MOV DL, 31H
+INT 21H
+SUB BL, 11H                
+MOV DL, BL                 
+INT 21H
+
+CONTINUE:                   
+MOV AH, 9                  
+LEA DX, E          
+INT 21H
+INT 21H
+
+LEA DX, C           
+INT 21H
+MOV AH, 1                  
+INT 21H
+CMP AL, "y"               
+JE JUMP                   
+CMP AL, "Y"               
+JE JUMP                  
+JMP EXIT                  
+
+JUMP:                      
+LEA DX, E         
+MOV AH, 9
+INT 21H
+INT 21H
+JMP L1               
+
+DISPLAY:                  
+MOV AH, 9                  
+LEA DX, E          
+INT 21H
+INT 21H
+      
+;END CODE HERE  
+EXIT:
+
+MOV AX, 4C00H
+INT 21h
+
+MAIN ENDP
+END MAIN

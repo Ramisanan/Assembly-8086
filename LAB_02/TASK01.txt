@@ -1,0 +1,66 @@
+
+.MODEL SMALL
+
+.STACK 100h
+     
+.DATA
+
+a DB "The result is$"
+
+
+.CODE
+MAIN PROC
+    
+    
+MOV AX,@DATA
+MOV DS, AX
+ 
+ 
+;START CODE HERE
+
+MOV AH, 1
+INT 21H
+
+
+;carriage return
+MOV AH, 2
+MOV DL, 0DH
+INT 21H
+;line feed
+MOV DL, 0AH
+INT 21H 
+
+LEA DX, a  
+MOV AH, 9
+INT 21H  
+
+;carriage return
+MOV AH, 2
+MOV DL, 0DH
+INT 21H
+;line feed
+MOV DL, 0AH
+INT 21H
+
+MOV AL, AH
+MOV BL, AH
+
+MUL BL
+ADD AL, 48
+
+MOV AH, 2 
+MOV DL, AL 
+INT 21h
+
+MOV AH, 4CH
+INT 21H
+
+
+
+;END CODE HERE
+
+MOV AX,4C00H
+INT 21H
+
+MAIN ENDP
+END MAIN

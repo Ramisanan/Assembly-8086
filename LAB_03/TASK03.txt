@@ -1,0 +1,83 @@
+.MODEL SMALL
+
+.STACK 100h
+     
+.DATA
+
+    
+input DB "Input: $"
+output DB "Output: $"
+    
+X DB "Weekday$"
+Y DB "Weekend$"
+   
+ends
+
+code segment
+start:
+
+mov ax, data
+mov ds, ax
+mov es, ax
+lea dx, input
+mov ah, 9                                                
+int 21h
+mov ah, 1
+int 21h
+
+cmp al , 31h
+je printWeekend
+cmp al , 32h
+je printWeekday
+cmp al , 33h
+je printWeekday
+cmp al , 34h
+je printWeekday
+cmp al , 35h
+je printWeekday
+cmp al , 36h
+je printWeekend
+cmp al , 37h
+je printWeekend
+    
+    
+printWeekday:
+mov dl, 0AH
+mov ah , 2
+int 21h
+mov dL,0DH 
+int 21h 
+mov dL,0AH 
+int 21h
+        
+lea dx, output
+mov ah, 9
+int 21h        
+lea dx, X
+mov ah, 9
+int 21h
+jmp exit
+        
+        
+printWeekend:
+mov dl, 0AH
+mov ah , 2
+int 21h
+mov dL,0DH 
+int 21h 
+mov dL,0AH 
+int 21h
+        
+lea dx, output
+mov ah, 9
+int 21h
+lea dx, Y
+mov ah, 9
+int 21h
+jmp exit 
+        
+ 
+exit:        
+        
+ends 
+end start

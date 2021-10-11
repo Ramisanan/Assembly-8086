@@ -1,0 +1,83 @@
+.MODEL SMALL
+
+.STACK 100h
+     
+.DATA 
+
+
+
+N DB 10,13,"FizzBuzz $"
+M DB 10,13,"Not divisible $"
+
+
+.CODE
+MAIN PROC
+        
+MOV AX, @DATA
+MOV DS, AX
+ 
+ 
+;START CODE HERE
+
+MOV AX, DATA
+MOV DS, AX
+MOV ES, AX 
+
+
+; add your code here
+
+
+MOV AH, 01H
+INT 21H
+MOV BL, AL
+SUB BL, 48
+MOV DL, 10
+MOV AH, 02H
+INT 21H
+
+MOV DL, 13
+MOV AH, 02H
+INT 21H
+
+
+MOV AH, 01H
+INT 21H
+SUB AL, 48
+
+MUL BL
+MOV BL, AL
+
+
+mov CX , BX
+mov bh , 5
+mov bl , 3
+    
+mov ax , cx
+div bh
+cmp ah , 0
+je print
+jnl div3
+
+
+div3:    
+mov ax , cx
+div bl
+cmp ah , 0
+je print
+jnl noPrint
+        
+print:        
+lea dx, N
+mov ah, 9
+int 21h
+jmp exit 
+        
+noPrint:
+lea dx, M
+mov ah, 9
+int 21h
+jmp exit
+        
+exit:
+         
+ends

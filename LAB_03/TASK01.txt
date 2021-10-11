@@ -1,0 +1,115 @@
+.MODEL SMALL
+
+.STACK 100h
+     
+.DATA
+
+a DB "1st input: $"   
+b DB "2nd input: $"
+c DB "3rd input: $"  
+
+.CODE
+MAIN PROC
+        
+MOV AX, @DATA
+MOV DS, AX
+ 
+ 
+;START CODE HERE
+
+MOV AX, DATA
+MOV DS, AX
+MOV ES, AX 
+
+
+;input
+
+LEA DX, a
+MOV AH, 9
+INT 21h
+    
+MOV AH, 1 
+INT 21h
+MOV BH, AL 
+
+MOV a, AL 
+
+
+;carriage return
+MOV AH, 2
+MOV DL, 0DH
+INT 21h
+;line feed
+MOV DL, 0AH
+INT 21h
+    
+LEA DX, b
+MOV AH, 9
+INT 21H 
+    
+MOV AH,1 
+INT 21h
+MOV BL, AL 
+
+MOV b, AL 
+
+;carriage return
+MOV AH, 2
+MOV DL, 0DH
+INT 21h
+;line feed
+MOV DL, 0AH
+INT 21h
+    
+LEA DX, c
+MOV AH, 9
+INT 21h
+
+MOV AH, 1 
+INT 21h
+MOV CL, AL
+
+MOV c, AL  
+
+;carriage return
+MOV AH, 2
+MOV DL, 0DH
+INT 21h
+;line feed
+MOV DL, 0AH
+INT 21h
+
+MOV BL, a
+CMP BL, b
+JNG NUMBER2   
+
+CMP BL, c
+JNG NUMBER3
+
+MOV DL, a
+JMP DISPLAY
+
+NUMBER2:
+MOV BL, b
+CMP BL, c
+JNG NUMBER3 
+
+MOV DL, b
+JMP DISPLAY
+
+NUMBER3:
+MOV DL, c
+
+DISPLAY:
+MOV AH, 2
+INT 21H
+           
+
+;END CODE HERE  
+EXIT:
+
+MOV AX, 4C00H
+INT 21h
+
+MAIN ENDP
+END MAIN

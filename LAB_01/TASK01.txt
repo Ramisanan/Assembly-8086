@@ -1,0 +1,5 @@
+MOV AX, 6H
+MOV BX, 5H
+ADD AX , BX 
+SUB BX, AX
+SUB AX, BX
